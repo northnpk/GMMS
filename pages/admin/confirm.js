@@ -66,7 +66,8 @@ export default function App() {
                     container
                     direction="row"
                     justifyContent="flex-start"
-                    alignItems="flex-start">
+                    alignItems="flex-start"
+                    sx={{mt:15}}>
 
                     <Grid item xs={12} md={6}>
                         <Stack
@@ -77,7 +78,7 @@ export default function App() {
                             width="100%">
                             <Paper elevation={5}
                                 sx={{
-                                    width: 500
+                                    width: 700
                                 }}>
                                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                                     <AccordionSummary
@@ -106,7 +107,7 @@ export default function App() {
 
                             <Paper elevation={5}
                                 sx={{
-                                    width: 500
+                                    width: 700
                                 }}>
                                 <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                                     <AccordionSummary
@@ -137,7 +138,7 @@ export default function App() {
 
                             <Paper elevation={5}
                                 sx={{
-                                    width: 500
+                                    width: 700
                                 }}>
                                 <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
                                     <AccordionSummary
@@ -168,7 +169,7 @@ export default function App() {
 
                             <Paper elevation={5}
                                 sx={{
-                                    width: 500
+                                    width: 700
                                 }}>
                                 <Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
                                     <AccordionSummary
@@ -201,16 +202,17 @@ export default function App() {
                             alignItems="flex-start"
                             spacing={2}
                             width="100%"
+                            sx={{ml:15}}
                         >
                             <PaperCount
                                 title="Engineer"
                                 count={data[0].item_re}
-                                width={300}
+                                width={600}
                             />
                             <Button variant="contained" color='success' onClick={handleClickn}
                                 startIcon={<DoneAllOutlined sx={{ width: 30, height: 30 }} />}
                                 endIcon={<DoneAllOutlined sx={{ width: 30, height: 30 }} />}
-                                sx={{ backgroundColor: '#53984E', width: 300, height: 60, letterSpacing: '5px', fontSize: 15 }}>
+                                sx={{ backgroundColor: '#53984E', width: 600, height: 80, letterSpacing: '5px', fontSize: 15 }}>
                                 Confirm
                             </Button>
 
@@ -225,7 +227,7 @@ export default function App() {
                             <Button variant="outlined" color='error' onClick={erhandleClick}
                                 startIcon={<PriorityHigh sx={{ width: 30, height: 30 }} />}
                                 endIcon={<PriorityHigh sx={{ width: 30, height: 30 }} />}
-                                sx={{ backgroundColor: '#FFFFFF', width: 300, height: 60, letterSpacing: '5px', fontSize: 15 }}>
+                                sx={{ backgroundColor: '#FFFFFF', width: 600, height: 80, letterSpacing: '5px', fontSize: 15 }}>
                                 Cancel
                             </Button>
 

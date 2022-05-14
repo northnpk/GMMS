@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { IconButton, Container, Grid, Box, Stack, Avatar, Button, Divider, Tooltip, Menu, MenuItem, ListItemIcon } from '@mui/material'
-import { Home, Feed, ShoppingCart, ExitToApp, NotificationsActive as Noti, Engineering, Logout, PrecisionManufacturing } from '@mui/icons-material'
+import { IconButton, Container, Select, Grid, Button, Checkbox, Dialog, Paper, Accordion, AccordionDetails, AccordionSummary, DialogActions, DialogTitle, Typography, FormControl, InputLabel, DialogContent, Stack, Divider } from '@mui/material'
+import { Home, Feed, Shop, ExitToApp, ExpandMore as ExpandMoreIcon, PrecisionManufacturing } from '@mui/icons-material'
 import Mlist from '../../components/Mlist3'
 import { styled } from '@mui/material/styles';
+import { useState } from 'react'
 
 import Header from '../../Components/Header'
 import MainMenu from '../../Components/MainMenu';
@@ -31,13 +32,15 @@ const data = [{
 ]
 
 const ColorButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.getContrastText('#3154A6'),
-    backgroundColor: '#435EBB',
+    color: theme.palette.getContrastText('#000000'),
+    backgroundColor: '#FFFFFF',
     '&:hover': {
         backgroundColor: '#FFFFFF',
-        color: '#3154A6'
+        color: '#000000'
     },
 }));
+
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function App() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -47,6 +50,14 @@ export default function App() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+    const [dialog, setDialog] = useState(false);
+    const [form, setForm] = useState({})
+    const [age, setAge] = React.useState('');
+
+    const [expanded, setExpanded] = React.useState(false);
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
     };
     return (
         <>
@@ -60,9 +71,103 @@ export default function App() {
                     py: 5
                 }}
             >
-
-                <Mlist Topic_list="SPARE PART" rows={data}></Mlist>
+                <Grid sx={{ml:122}} >
+                    <ColorButton variant="contained" onClick={() => setDialog(true)} startIcon={<Shop />} sx={{ color: '#000000', width: 100, height: 40 }}>CART</ColorButton>
+                </Grid>
+                <Mlist Topic_list="SPARE PART" rows={data} ></Mlist>
             </Container>
+            <Dialog open={dialog} fullWidth>
+                <DialogTitle p={1} bgcolor="success.light" mb={2}>
+                    <Typography component="p" variant="h6" color="white" fontWeight={600}>
+                        Cart List
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <Stack
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
+                        width="100%">
+                        <Paper elevation={5}
+                            sx={{
+                                width: 500
+                            }}>
+                            <div>
+                                <Checkbox {...label} />
+                            </div>
+                            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                >
+                                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                        CART NAME :
+                                    </Typography>
+                                    <Typography sx={{ color: '#435EBB' }}>{data[0].Name}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        จำนวน : <text style={{ color: '#435EBB' }}>{data[0].en_id}</text>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Paper>
+                        <Paper elevation={5}
+                            sx={{
+                                width: 500
+                            }}>
+                            <div>
+                                <Checkbox {...label} />
+                            </div>
+                            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                >
+                                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                        CART NAME :
+                                    </Typography>
+                                    <Typography sx={{ color: '#435EBB' }}>{data[0].Name}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        จำนวน : <text style={{ color: '#435EBB' }}>{data[0].en_id}</text>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Paper>
+                    </Stack>
+
+                </DialogContent>
+                <DialogActions >
+                    <Button onClick={() => setDialog(false)} variant="outline">Cancel</Button>
+                    <Button
+                        variant="contained"
+                        color='error'
+                        sx={{ backgroundColor: '#FF2F2F', ":hover": { backgroundColor: 'error' } }}
+                        onClick={() => {
+                            setDialog(false)
+                            console.log(form)
+                        }}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color='success'
+                        sx={{ backgroundColor: 'success.light', ":hover": { backgroundColor: 'success' } }}
+                        onClick={() => {
+                            setDialog(false)
+                            console.log(form)
+                        }}
+                    >
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }
