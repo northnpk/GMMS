@@ -5,7 +5,7 @@ import Mlist from '../../components/Mlist3'
 import { styled } from '@mui/material/styles';
 
 import Header from '../../Components/Header'
-import MainMenu from '../../Components/MainMenu';
+import MainMenu from '../../Components/MainMenuen';
 import Profile from '../../Components/Profile'
 
 const data = [{

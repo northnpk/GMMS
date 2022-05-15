@@ -2,7 +2,7 @@ import Header from '../../Components/Header'
 import { Container, Grid, Paper } from '@mui/material';
 import MachineTable from '../../Components/MachineTable';
 import PaperCount from '../../Components/PaperCount';
-import MainMenu from '../../Components/MainMenu';
+import MainMenu from '../../Components/MainMenuqc';
 import Profile from '../../Components/Profile'
 
 import { useCookies } from 'react-cookie';

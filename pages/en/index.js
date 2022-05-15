@@ -1,5 +1,5 @@
 import Header from '../../Components/Header'
-import MainMenu from '../../Components/MainMenu';
+import MainMenu from '../../Components/MainMenuen';
 import Profile from '../../Components/Profile'
 
 import { Container, Grid, Paper } from '@mui/material';

@@ -59,9 +59,8 @@ export default () => {
                     zIndex={5}
                 >
                     <PrecisionManufacturing sx={{ color: '#FFFFFF', width: 230, height: 100 }} />
-                    <ButtonMenu onClick={() => router.push('/ad')} icon={<Home sx={{ width: 30, height: 30 }} />}></ButtonMenu>
-                    <ButtonMenu onClick={() => router.push('/ad/fiana')} icon={<Feed sx={{ width: 30, height: 30 }} />}></ButtonMenu>
-                    <ButtonMenu onClick={() => router.push('/ad/cart')} icon={<ShoppingCart sx={{ width: 30, height: 30 }} />}></ButtonMenu>
+                    <ButtonMenu onClick={() => router.push('/en')} icon={<Home sx={{ width: 30, height: 30 }} />}></ButtonMenu>
+                    <ButtonMenu onClick={() => router.push('/en/cart')} icon={<ShoppingCart sx={{ width: 30, height: 30 }} />}></ButtonMenu>
                     <Box borderBottom="3px solid #FFFFFF" width="100%" height={40} />
                     <ButtonMenu onClick={() => router.back()} icon={<ArrowBackIos sx={{ width: 30, height: 30 }} />}></ButtonMenu>
                 </Stack>
