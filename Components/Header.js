@@ -1,6 +1,20 @@
 import Head from 'next/head'
 
+import { useRouter } from 'next/router'
+import { useCookies } from 'react-cookie';
+import { useEffect } from 'react';
+
 export default ({ title }) => {
+
+    const router = useRouter();
+    const [cookies] = useCookies(['user']);
+
+    useEffect(() => {
+        if (cookies.user && cookies.user.User_ID) return;
+        router.push('/');
+
+    }, []);
+
     return (
         <Head>
             <title>{(title) ? title : 'GMMS'}</title>

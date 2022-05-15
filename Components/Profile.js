@@ -1,18 +1,30 @@
-import { useState, Fragment } from "react"
+import { useEffect, useState } from "react"
 
 import { Box, Avatar, Stack, IconButton, Menu, MenuItem, Tooltip, ListItemIcon } from '@mui/material'
 import { Logout } from '@mui/icons-material'
+import { useCookies } from 'react-cookie';
+import { useRouter } from "next/router";
 
 export default () => {
 
+    const router = useRouter();
+    const [cookies,setCookie,removeCookie] = useCookies(['user']);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const [user, setUser] = useState({ Role: '-', Firstname: '-', Lastname: '-' })
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        if (cookies.user && cookies.user.User_ID) {
+            setUser(cookies.user)
+        }
+    }, [cookies.user])
 
     return (
         <Box position='fixed' top={10} right={50}>
@@ -26,7 +38,7 @@ export default () => {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 50, height: 50, border: '5px solid #E9DF00' }}>M</Avatar>
+                        <Avatar sx={{ width: 50, height: 50, border: '5px solid #E9DF00' }}>{user.Role}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -65,7 +77,10 @@ export default () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem>
+                <MenuItem onClick={() => { removeCookie('user'); router.push('/') }}>
+                    {user.Firstname} {user.Lastname}
+                </MenuItem>
+                <MenuItem onClick={() => { removeCookie('user'); router.push('/') }}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

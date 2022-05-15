@@ -32,7 +32,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 const problemicon = (status) => {
-    if (!status)
+    if (status)
         return (<Report fontSize="large" sx={{ color: '#E33122' }} />);
     else
         return (<CheckBox fontSize="large" sx={{ color: '#65FF00' }} />);
@@ -112,16 +112,19 @@ export default ({ Topic_list, Op1, Op2, rows }) => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {rows.slice((page - 1) * 5, page * 5).map((row) => (
-                    <StyledTableRow key={row.Name}>
+                {rows.slice((page - 1) * 5, page * 5).map((row, i) => (
+                    <StyledTableRow key={i}>
                         <StyledTableCell component="th" scope="row" sx={{ color: '#242424' }}>
-                            {row.Name}<br />{row.Mop3}
+                            {row.Machine_Name}<br />{row.Machine_Type}
                         </StyledTableCell>
-                        <StyledTableCell align="center" sx={{ color: ColorText(row.Mop1) }}>{row.Mop1}%</StyledTableCell>
-                        <StyledTableCell align="center">{problemicon(row.Mop2)}</StyledTableCell>
+                        <StyledTableCell align="center" sx={{ color: ColorText(row.Efficiency) }}>{row.Efficiency}%</StyledTableCell>
+                        <StyledTableCell align="center">{problemicon(row.Status)}</StyledTableCell>
                         <StyledTableCell align="center">
                             <Grid>
-                                <ColorButton variant="contained" onClick={() => router.push('/Admin/info')} startIcon={<List />} sx={{ color: '#000000', width: 100, height: 40 }}>View</ColorButton>
+                                <ColorButton variant="contained" onClick={() => router.push({
+                                    pathname: '/ad/info',
+                                    query: row,
+                                })} startIcon={<List />} sx={{ color: '#000000', width: 100, height: 40 }}>View</ColorButton>
                             </Grid>
                         </StyledTableCell>
                     </StyledTableRow>

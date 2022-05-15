@@ -103,8 +103,8 @@ export default ({ Topic_list, Op1, Op2, rows }) => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {rows.slice((page - 1) * 5, page * 5).map((row) => (
-                    <StyledTableRow key={row.Name}>
+                {rows.slice((page - 1) * 5, page * 5).map((row,i) => (
+                    <StyledTableRow key={i}>
                         <StyledTableCell component="th" scope="row" sx={{ color: '#242424' }}>
                             {row.Name}<br />{row.Mop3}
                         </StyledTableCell>

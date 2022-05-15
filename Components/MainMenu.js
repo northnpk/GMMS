@@ -1,7 +1,8 @@
-import { Box, Button, Stack } from '@mui/material'
-import { Home, Feed, ShoppingCart, ArrowBackIos, PrecisionManufacturing } from '@mui/icons-material'
+import { Box, Button, Stack, Drawer, IconButton } from '@mui/material'
+import { Home, Feed, ShoppingCart, ArrowBackIos, PrecisionManufacturing, Menu } from '@mui/icons-material'
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/router'
+import { useState } from 'react';
 
 const ButtonMenu = ({ children, icon, onClick }) => {
     return (
@@ -29,29 +30,41 @@ const ButtonMenu = ({ children, icon, onClick }) => {
 export default () => {
 
     const router = useRouter();
+    const [open, setOpen] = useState(false);
 
     return (
-        <Stack
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            spacing={2}
-            pt={10}
-            position='fixed'
-            width={230}
-            height='100vh'
-            bgcolor='#3154A6'
-            overflow='hidden'
-            left={0}
-            top={0}
-            zIndex={5}
-        >
-            <PrecisionManufacturing sx={{ color: '#FFFFFF', width: 230, height: 100 }} />
-            <ButtonMenu icon={<Home sx={{ width: 30, height: 30 }} />}>Home</ButtonMenu>
-            <ButtonMenu icon={<Feed sx={{ width: 30, height: 30 }} />}>Machine List</ButtonMenu>
-            <ButtonMenu icon={<ShoppingCart sx={{ width: 30, height: 30 }} />}>Cart List</ButtonMenu>
-            <Box borderBottom="3px solid #FFFFFF" width="100%" height={40} />
-            <ButtonMenu onClick={() => router.back()} icon={<ArrowBackIos sx={{ width: 30, height: 30 }} />}>Back</ButtonMenu>
-        </Stack>
+        <>
+            <Button sx={{ position: 'fixed', top: 10, left: 50, zIndex: 4 }} onClick={() => setOpen(true)}>
+                <Menu sx={{ fontSize: 30 }} />
+            </Button>
+            <Drawer
+                anchor='left'
+                open={open}
+                onClose={() => setOpen(false)}
+            >
+                <Stack
+                    direction="column"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    spacing={2}
+                    pt={10}
+                    position='fixed'
+                    width={230}
+                    height='100vh'
+                    bgcolor='#3154A6'
+                    overflow='hidden'
+                    left={0}
+                    top={0}
+                    zIndex={5}
+                >
+                    <PrecisionManufacturing sx={{ color: '#FFFFFF', width: 230, height: 100 }} />
+                    <ButtonMenu icon={<Home sx={{ width: 30, height: 30 }} />}>Home</ButtonMenu>
+                    <ButtonMenu icon={<Feed sx={{ width: 30, height: 30 }} />}>Machine List</ButtonMenu>
+                    <ButtonMenu icon={<ShoppingCart sx={{ width: 30, height: 30 }} />}>Cart List</ButtonMenu>
+                    <Box borderBottom="3px solid #FFFFFF" width="100%" height={40} />
+                    <ButtonMenu onClick={() => router.back()} icon={<ArrowBackIos sx={{ width: 30, height: 30 }} />}>Back</ButtonMenu>
+                </Stack>
+            </Drawer>
+        </>
     )
 }

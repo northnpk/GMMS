@@ -1,15 +1,16 @@
 import Header from '../../Components/Header'
 import CircleBar from '../../Components/CircleBar';
-import TableLog from '../../Components/TableLogEngineer';
+import TableLog from '../../Components/TableLogAdmin';
 import MachineProfile from '../../Components/MachineProfile';
 import MainManu from '../../Components/MainMenu'
 import Profile from '../../Components/Profile'
 import Loading from '../../Components/Loading'
 
-import { Container, Grid, Paper, Stack, Typography, Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField } from '@mui/material';
+import * as React from 'react';
+import { Container, Grid, Paper, MenuItem, Stack, FormControl, InputLabel, Select, Typography, Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField } from '@mui/material';
 
 import { useRouter } from 'next/router';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Efficiency = ({ value }) => {
 
@@ -52,7 +53,7 @@ const ErrorStatus = ({ count }) => {
             }}
         >
             <Typography component="h6" variant="h6" mb={4} color="primary" fontWeight={600}>
-                Error status
+                Error
             </Typography>
             <Typography component="p" variant="h4" align='center' color={(count && count > 0 ? "error.light" : "")}>
                 {count}
@@ -67,19 +68,48 @@ export default () => {
     const router = useRouter()
     const data = router.query;
 
-    const [count, setCount] = useState(0)
     const [log, setLog] = useState({})
+    const [count, setCount] = useState(0)
+    const [engineerList, setEngineerList] = useState([]);
+    const [engineer, setEngineer] = useState(0)
 
-    const [dialog, setDialog] = useState(false);
-    const [open, setOpen] = useState(false)
     const [reload, setReload] = useState(true)
+    const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+
+        const fetchList = async () => {
+            const res = await fetch(`/api/getEngineer`)
+            if (res.status != 200) return;
+            const data = await res.json()
+            setEngineerList(data);
+        }
+        fetchList();
+
+    }, [])
+
+    const Check = async (id, errorID) => {
+        setOpen(true);
+        const body = { id, errorID }
+
+        await fetch('/api/setEngineer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        setReload(!reload)
+        setOpen(false);
+    }
 
     return (
         <>
             <Header title="GMMS - Engineer" />
+            <Loading open={open} />
             <MainManu />
             <Profile />
-            <Loading open={open} />
             <Container
                 component="main"
                 maxWidth="lg"
@@ -122,7 +152,7 @@ export default () => {
                         </Stack>
                     </Grid>
                 </Grid>
-                <Dialog open={dialog} fullWidth >
+                <Dialog open={Object.keys(log).length > 0} fullWidth>
                     <DialogTitle p={1} bgcolor="success.light" mb={2}>
                         <Typography component="p" variant="h6" color="white" fontWeight={600}>
                             Error detail
@@ -133,39 +163,53 @@ export default () => {
                             Problem type
                         </Typography>
                         <Typography component="p" variant="body1" mb={2}>
-                            asdasdasdasdasdasdasdadadadada
-                        </Typography>
-                        <Typography component="p" variant="body1" fontWeight={600} mb={2}>
-                            Detaile
-                        </Typography>
-                        <Typography component="p" variant="body1" mb={2}>
-                            asdasdasdasdasdasdasdadadadada
+                            {log.Catagory} - LV {log.Problem_LV}
                         </Typography>
                         <Typography component="p" variant="body1" fontWeight={600} mb={2}>
                             Detail
                         </Typography>
-                        <TextField
-                            id="outlined-multiline-static"
-                            multiline
-                            rows={5}
-                            fullWidth
-                        />
+                        <Typography component="p" variant="body1" mb={2}>
+                            {log.ProblemDetail}
+                        </Typography>
+                        <Typography component="p" variant="body1" fontWeight={600} mb={2}>
+                            Engineer
+                        </Typography>
+                        {
+                            (!log.Firstname) ? <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={engineer}
+                                onChange={(e) => setEngineer(e.target.value)}
+                                fullWidth
+                            >
+                                <MenuItem key={0} value={0}>None</MenuItem>
+                                {
+                                    engineerList.map((value, i) => <MenuItem key={i + 1} value={value.User_ID}>{value.Firstname} {value.Lastname}</MenuItem>)
+                                }
+                            </Select> :
+                                <Typography component="p" variant="body1" mb={2}>
+                                    {log.Firstname} {log.Lastname}
+                                </Typography>
+                        }
                     </DialogContent>
                     <DialogActions >
-                        <Button onClick={() => setDialog(false)} variant="outline">Cancel</Button>
-                        <Button
-                            variant="contained"
-                            color='success'
-                            sx={{ backgroundColor: 'success.light', ":hover": { backgroundColor: 'success' } }}
-                            onClick={() => {
-                                setDialog(false)
-                            }}
-                        >
-                            Fixed
-                        </Button>
+                        <Button onClick={() => setLog({})} variant="outline">{(!log.Firstname) ? 'Cancel' : 'Close'}</Button>
+                        {
+                            (!log.Firstname) && <Button
+                                variant="contained"
+                                color='success'
+                                sx={{ backgroundColor: 'success.light', ":hover": { backgroundColor: 'success' } }}
+                                onClick={() => {
+                                    Check(engineer, log.ErrorLog_ID);
+                                    setLog({})
+                                }}
+                            >
+                                Check
+                            </Button>
+                        }
                     </DialogActions>
                 </Dialog>
             </Container>
         </>
     );
-}
+}  

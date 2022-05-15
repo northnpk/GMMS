@@ -1,9 +1,10 @@
 import Control from './ControlTable'
 
-import { TextField, Paper, Stack, Typography, Select, MenuItem } from '@mui/material';
+import { TextField, Paper, Stack, Typography, Select, MenuItem, Button, Box } from '@mui/material';
 import { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie';
 
-const Log = ({ data, i }) => {
+const Log = ({ data, i, selectData }) => {
     return (
         <>
             <Stack
@@ -11,33 +12,38 @@ const Log = ({ data, i }) => {
                 width="100%"
                 borderRadius={3}
                 flexDirection='row'
-                justifyContent='space-around'
+                justifyContent='flex-start'
                 alignItems='center'
                 p={2}
+                height="25%"
             >
                 <Typography component="p" variant="body1" align="left" width="10%">
                     {i}
                 </Typography>
-                <Typography component="p" variant="body1" align="left" width="40%">
+                <Typography component="p" variant="body1" align="left" width="50%">
                     {data.Catagory}
                 </Typography>
-                <Typography component="p" variant="body1" align="center" width="25%">
+                <Typography component="p" variant="body1" align="left" width="20%">
                     Level : {data.Problem_LV}
                 </Typography>
-                <Typography component="p" variant="body1" align="center" width="25%">
-                    {(data.Status == '0') ? 'error' : 'fixed'}
-                </Typography>
+                <Box sx={{ width: '20%' }} display='flex' flexDirection='row' justifyContent='flex-end'>
+                    <Button variant='text' color={(data.Firstname) ? 'success' : 'error'} sx={{ height: '80%' }} onClick={() => selectData(data)}>
+                        {(data.Firstname) ? 'Checked' : 'Unchecked'}
+                    </Button>
+                </Box>
             </Stack>
         </>
     )
 }
 
-export default ({ id, reload }) => {
+export default ({ id, userID, reload, setCount, selectData }) => {
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState([]);
     const [rows, setRows] = useState([]);
     const [status, setStatus] = useState('0');
+
+    const [cookies] = useCookies(['user']);
 
     const selectStatus = (value) => {
         setStatus(value);
@@ -47,20 +53,22 @@ export default ({ id, reload }) => {
     useEffect(() => {
 
         if (!id) return;
+        if (!cookies.user || !cookies.user.User_ID) return
 
         const fetchData = async () => {
 
-            const res = await fetch(`/api/getError?id=${id}`)
+            const res = await fetch(`/api/getError?id=${id}&userID=${cookies.user.User_ID}`)
             if (res.status != 200) return;
 
             const _data = await res.json()
             setData(_data)
             setRows(_data.filter(v => v.Status == status))
+            if (setCount) setCount(_data.filter(v => v.Status == 0).length);
         }
 
         fetchData();
 
-    }, [id, reload])
+    }, [id, reload, cookies.user])
 
     return (
         <Paper
@@ -111,7 +119,7 @@ export default ({ id, reload }) => {
                     {
                         (rows.length > 0) ? (
                             <>
-                                {rows.map((v, i) => (i >= ((page - 1) * 5) && i < page * 5) ? <Log key={i} data={v} i={i + 1} /> : '')}
+                                {rows.map((v, i) => (i >= ((page - 1) * 4) && i < page * 4) ? <Log key={i} data={v} i={i + 1} selectData={selectData} /> : '')}
                             </>
                         ) : (
                             <Typography component="h6" variant="h6" gutterBottom align="center" width={'100%'} height={'100%'} >
@@ -130,7 +138,7 @@ export default ({ id, reload }) => {
                     borderTop="2px solid #D9D9D9"
                     pt={1}
                 >
-                    <Control count={(rows) ? rows.length : 0} page={page} setPage={setPage} />
+                    <Control count={(rows) ? rows.length : 0} page={page} setPage={setPage} perPage={4} />
                 </Stack>
             </Stack>
         </Paper>

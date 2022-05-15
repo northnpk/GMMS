@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import { createTheme, ThemeProvider } from '@mui/material'
+import { CookiesProvider } from 'react-cookie';
 
 const theme = createTheme({
   typography: {
@@ -10,7 +11,9 @@ const theme = createTheme({
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <CookiesProvider>
+        <Component {...pageProps} />
+      </CookiesProvider>
     </ThemeProvider >
   );
 }

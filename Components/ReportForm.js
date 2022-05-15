@@ -1,33 +1,17 @@
 import { InputLabel, MenuItem, Select, Slider, Box, TextField, Stack, Typography } from '@mui/material'
 import { useState, useEffect, useCallback } from 'react'
 
-export default ({ setData }) => {
+export default ({ setData,list }) => {
 
-    const [type, setType] = useState('');
+    const [type, setType] = useState(1);
     const [detail, setDetail] = useState('');
     const [level, setLevel] = useState(1);
-
-    const [list, setList] = useState([])
 
     useEffect(() => {
 
         if (setData) setData({ type, detail, level })
 
     }, [type, detail, level])
-
-    useEffect(() => {
-
-        const fetchList = async () => {
-            const res = await fetch(`/api/getProblemType`)
-            console.log(res.status)
-            if (res.status != 200) return;
-            const data = await res.json()
-            console.log(data)
-            setList(data);
-        }
-        fetchList();
-
-    }, [])
 
     return (
         <Stack
@@ -47,7 +31,7 @@ export default ({ setData }) => {
                 onClick={() => { (list.length == 0) && loadingList() }}
             >
                 {(list.length > 0) && list.map((row, i) => {
-                    return (<MenuItem key={i} value={row.Problem_Catagory}>{row.Description}</MenuItem>)
+                    return (<MenuItem key={i+1} value={row.Problem_Catagory}>{row.Description}</MenuItem>)
                 })
                 }
             </Select>

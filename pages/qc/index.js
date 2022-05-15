@@ -5,7 +5,28 @@ import PaperCount from '../../Components/PaperCount';
 import MainMenu from '../../Components/MainMenu';
 import Profile from '../../Components/Profile'
 
-export default ({ data }) => {
+import { useCookies } from 'react-cookie';
+import { useEffect, useState } from 'react';
+
+export default () => {
+
+    const [data, setData] = useState([]);
+    const [cookies] = useCookies(['user'])
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            if (!cookies.user || !cookies.user.User_ID) return;
+
+            const res = await fetch(`/api/qcMachine?id=${cookies.user.User_ID}`)
+            if (res.status != 200) return;
+
+            const data = await res.json()
+            setData(data)
+        }
+        fetchData();
+
+    }, [cookies.user])
 
     return (
         <>
@@ -48,21 +69,11 @@ export default ({ data }) => {
                                 borderRadius: 2
                             }}
                         >
-                            <MachineTable data={data} path="/qc/info" />
+                            <MachineTable data={data} role="qc" />
                         </Paper>
                     </Grid>
                 </Grid>
             </Container>
         </>
     );
-}
-
-export async function getServerSideProps() {
-
-    const res = await fetch(`http://localhost:3000/api/getMachine`)
-    if (res.status != 200)
-        return { props: { data: [] } }
-
-    const data = await res.json()
-    return { props: { data } }
 }

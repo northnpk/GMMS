@@ -3,20 +3,22 @@ import con from "../../lib/connect";
 
 export default async function handler(req, res) {
 
-    try {
-        con.query("SELECT `Machine_Name`,`Serial_number`,`Machine_Type`,`Efficiency`,`Active_start` FROM `Machine`", (err, result) => {
+    const { user } = req.body;
 
-            if (err) {
+    try {
+        con.query("SELECT `User_ID`,`Firstname`,`Lastname`,`Phonenumber`,`Role` FROM `User` WHERE Username=? AND Password=?", [user.username, user.password], (err, result) => {
+
+            if (err || result.length == 0) {
                 if (err.code == 'ECONNREFUSED') console.log(err.code);
                 res.status(400).json({ error: 'not found' });
                 return;
             }
+
             res.status(200).json(result);
         })
     } catch {
         console.log("Error")
         res.status(400).json({ error: 'not found' });
     }
-
 
 }

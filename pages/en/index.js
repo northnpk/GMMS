@@ -6,7 +6,29 @@ import { Container, Grid, Paper } from '@mui/material';
 import MachineTable from '../../Components/MachineTable';
 import PaperCount from '../../Components/PaperCount';
 
-export default ({ data }) => {
+import { useCookies } from 'react-cookie';
+import { useState, useEffect } from 'react';
+
+export default () => {
+
+    const [data, setData] = useState([]);
+    const [cookies] = useCookies(['user']);
+
+    useEffect(() => {
+        if (!cookies.user || !cookies.user.User_ID) return
+
+        const fetchData = async () => {
+
+            const res = await fetch(`/api/enMachine?id=${cookies.user.User_ID}`)
+            if (res.status != 200) return;
+
+            const _data = await res.json()
+            setData(_data)
+            console.log(_data);
+        }
+        fetchData();
+
+    }, [cookies.user])
 
     return (
         <>
@@ -15,7 +37,7 @@ export default ({ data }) => {
             <Profile />
             <Container
                 component="main"
-                maxWidth="lg"
+                maxWidth="md"
                 sx={{
                     minHeight: "95vh",
                     py: 5
@@ -49,21 +71,11 @@ export default ({ data }) => {
                                 borderRadius: 2
                             }}
                         >
-                            <MachineTable data={data} path="/en/info" />
+                            <MachineTable data={data} role="en" />
                         </Paper>
                     </Grid>
                 </Grid>
             </Container>
         </>
     );
-}
-
-export async function getServerSideProps() {
-
-    const res = await fetch(`http://localhost:3000/api/getMachine`)
-    if (res.status != 200)
-        return { props: { data: [] } }
-
-    const data = await res.json()
-    return { props: { data } }
 }
