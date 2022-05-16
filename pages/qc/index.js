@@ -8,7 +8,7 @@ import Profile from '../../Components/Profile'
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
 
-export default () => {
+const MyApp= () => {
 
     const [data, setData] = useState([]);
     const [cookies] = useCookies(['user'])
@@ -87,3 +87,7 @@ export default () => {
         </>
     );
 }
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

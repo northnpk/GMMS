@@ -15,7 +15,7 @@ import Loading from '../Components/Loading'
 
 import { useCookies } from 'react-cookie';
 
-export default () => {
+const MyApp = () => {
 
   const router = useRouter();
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -126,3 +126,7 @@ export default () => {
     </>
   );
 }
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

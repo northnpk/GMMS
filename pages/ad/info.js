@@ -63,7 +63,7 @@ const ErrorStatus = ({ count }) => {
 
 }
 
-export default () => {
+const MyApp = () => {
 
     const router = useRouter()
     const data = router.query;
@@ -225,3 +225,7 @@ export default () => {
         </>
     );
 }  
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

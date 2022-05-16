@@ -69,7 +69,7 @@ const ButtonPaper = ({ reportDialog }) => {
 
 }
 
-export default () => {
+const MyApp = () => {
 
     const [cookies] = useCookies(['user'])
     const router = useRouter()
@@ -189,3 +189,7 @@ export default () => {
         </>
     );
 }
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

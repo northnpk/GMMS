@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useRouter } from "next/router";
 import Loading from "../Components/Loading";
 
-export default () => {
+const MyApp = () => {
 
     const router = useRouter();
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -20,3 +20,7 @@ export default () => {
         <Loading open={true} />
     )
 }
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;
