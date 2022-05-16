@@ -4,10 +4,10 @@ import con from "../../lib/connect";
 export default async function handler(req, res) {
 
     try {
-        con.query("SELECT `Problem_Catagory`,`Description` FROM `Problem_type`", (err, result) => {
+        con.query("SELECT `Problem_Category`,`Description` FROM `Problem_type`", (err, result) => {
 
             if (err) {
-                if (err.code == 'ECONNREFUSED') console.log(err.code);
+                console.log(err);
                 res.status(400).json({ error: 'not found' });
                 return;
             }

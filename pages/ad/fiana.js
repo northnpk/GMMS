@@ -32,7 +32,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }));
 
 
-export default function App() {
+function MyApp() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -71,3 +71,8 @@ export default function App() {
         </>
     )
 }
+
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

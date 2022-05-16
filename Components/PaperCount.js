@@ -1,7 +1,7 @@
 import { Paper, Typography } from '@mui/material'
 
 
-export default ({ title, count, error = false, width }) => {
+export default function MyApp({ title, count, error = false, width }){
     return (
         <Paper
             elevation={3}

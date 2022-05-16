@@ -28,7 +28,7 @@ const ButtonMenu = ({ children, icon, onClick }) => {
 }
 
 
-export default () => {
+export default function MyApp(){
 
     const router = useRouter();
     const [open, setOpen] = useState(false);

@@ -151,7 +151,7 @@ const MyApp = () => {
                             Problem type
                         </Typography>
                         <Typography component="p" variant="body1" mb={2}>
-                            {log.Catagory} - LV {log.Problem_LV}
+                            {log.Category} - LV {log.Problem_LV}
                         </Typography>
                         <Typography component="p" variant="body1" fontWeight={600} mb={2}>
                             Error detail

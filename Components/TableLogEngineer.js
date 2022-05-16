@@ -21,7 +21,7 @@ const Log = ({ data, i, selectData }) => {
                     {i}
                 </Typography>
                 <Typography component="p" variant="body1" align="left" width="50%">
-                    {data.Catagory}
+                    {data.Category}
                 </Typography>
                 <Typography component="p" variant="body1" align="left" width="20%">
                     Level : {data.Problem_LV}
@@ -36,7 +36,7 @@ const Log = ({ data, i, selectData }) => {
     )
 }
 
-export default ({ id, userID, reload, setCount, selectData }) => {
+export default function MyApp({ id, userID, reload, setCount, selectData }) {
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState([]);

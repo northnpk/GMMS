@@ -5,7 +5,7 @@ import { Logout } from '@mui/icons-material'
 import { useCookies } from 'react-cookie';
 import { useRouter } from "next/router";
 
-export default () => {
+export default function MyApp() {
 
     const router = useRouter();
     const [cookies, setCookie, removeCookie] = useCookies(['user']);

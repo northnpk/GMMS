@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
 
-export default ({ title }) => {
+export default function MyApp({ title }){
 
     const router = useRouter();
     const [cookies] = useCookies(['user']);

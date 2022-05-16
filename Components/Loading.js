@@ -3,7 +3,7 @@ import {
     CircularProgress
 } from '@mui/material'
 
-export default ({ open, title }) => {
+export default function MyApp({ open, title }) {
     if (!open) return null;
 
     return (

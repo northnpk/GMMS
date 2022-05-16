@@ -2,7 +2,7 @@ import { Box, CircularProgress, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
 
-export default ({ value, size = 100 }) => {
+const MyApp = ({ value, size = 100 }) => {
 
     const [progress, setProgress] = useState(0)
 
@@ -54,3 +54,8 @@ export default ({ value, size = 100 }) => {
         </Box>
     )
 }
+
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

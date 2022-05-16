@@ -7,7 +7,7 @@ import MainMenu from '../../Components/MainMenu';
 import Profile from '../../Components/Profile'
 
 
-export default function App() {
+function MyApp() {
 
     const [data, setData] = useState([]);
 
@@ -53,3 +53,7 @@ export default function App() {
     )
 }
 
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

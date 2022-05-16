@@ -8,7 +8,7 @@ import {
 import { useState, useEffect, useCallback } from 'react'
 
 
-export default ({ count, page, setPage, perPage = 5 }) => {
+export default function MyApp({ count, page, setPage, perPage = 5 }) {
 
     const [start, setStart] = useState(1);
     const [maxPage, setMaxPage] = useState(0);

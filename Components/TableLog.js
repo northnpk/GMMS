@@ -19,7 +19,7 @@ const Log = ({ data, i }) => {
                     {i}
                 </Typography>
                 <Typography component="p" variant="body1" align="left" width="40%">
-                    {data.Catagory}
+                    {data.Category}
                 </Typography>
                 <Typography component="p" variant="body1" align="center" width="25%">
                     Level : {data.Problem_LV}
@@ -32,7 +32,7 @@ const Log = ({ data, i }) => {
     )
 }
 
-export default ({ id, reload }) => {
+export default function MyApp({ id, reload }){
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState([]);

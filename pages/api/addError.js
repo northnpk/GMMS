@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
     try {
         con.query("INSERT INTO `Error_Logging` " +
-            " (`Serial_number`, `Problem_Catagory`, `Problem_LV`, `ProblemDetail`, `Status`, `User_ID`) " +
+            " (`Serial_number`, `Problem_Category`, `Problem_LV`, `ProblemDetail`, `Status`, `User_ID`) " +
             " VALUES (?,?,?,?,?,?)", [serial, type, level, detail, 0, 0], (err, result) => {
 
                 if (err) {

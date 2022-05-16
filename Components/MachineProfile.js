@@ -2,7 +2,7 @@ import { Box, Paper, Stack, Typography } from '@mui/material';
 
 import Image from 'next/image';
 
-export default ({ data }) => {
+export default function MyApp({ data }) {
 
     return (
         <Paper

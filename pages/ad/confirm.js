@@ -22,7 +22,7 @@ const data = [{
 }]
 
 
-export default function App() {
+function MyApp() {
 
     const [expanded, setExpanded] = React.useState(false);
 
@@ -246,3 +246,7 @@ export default function App() {
     )
 }
 
+
+MyApp.displayName = "MyApp"
+
+export default MyApp;

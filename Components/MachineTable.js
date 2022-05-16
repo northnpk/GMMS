@@ -112,7 +112,7 @@ const Row = ({ value, path }) => {
     )
 }
 
-export default ({ data, role }) => {
+export default function MyApp({ data, role }) {
 
     const [page, setPage] = useState(1)
 

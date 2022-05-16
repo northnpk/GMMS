@@ -1,9 +1,9 @@
 import { InputLabel, MenuItem, Select, Slider, Box, TextField, Stack, Typography } from '@mui/material'
 import { useState, useEffect, useCallback } from 'react'
 
-export default ({ setData,list }) => {
+export default function MyApp({ setData, list }) {
 
-    const [type, setType] = useState(1);
+    const [type, setType] = useState('');
     const [detail, setDetail] = useState('');
     const [level, setLevel] = useState(1);
 
@@ -26,12 +26,11 @@ export default ({ setData,list }) => {
             <Select
                 id="demo-simple-select"
                 value={type}
-                onChange={(event) => setType(event.target.value)}
+                onChange={(event) => { setType(event.target.value) }}
                 fullWidth
-                onClick={() => { (list.length == 0) && loadingList() }}
             >
                 {(list.length > 0) && list.map((row, i) => {
-                    return (<MenuItem key={i+1} value={row.Problem_Catagory}>{row.Description}</MenuItem>)
+                    return (<MenuItem key={i + 1} value={row.Problem_Category}>{row.Description}</MenuItem>)
                 })
                 }
             </Select>

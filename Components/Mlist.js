@@ -32,10 +32,13 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 const problemicon = (status) => {
-    if (status)
+
+    if (status != null) {
         return (<Report fontSize="large" sx={{ color: '#E33122' }} />);
-    else
-        return (<CheckBox fontSize="large" sx={{ color: '#65FF00' }} />);
+    }
+    else {
+        return (<CheckBox fontSize="large" sx={{ color: '#65FF00' }} />)
+    }
 }
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -96,7 +99,7 @@ const ColorText = (value) => {
         return '#E33122'
 }
 
-export default ({ Topic_list, Op1, Op2, rows }) => {
+export default function MyApp({ Topic_list, Op1, Op2, rows }) {
 
     const [page, setPage] = useState(1);
     const router = useRouter();

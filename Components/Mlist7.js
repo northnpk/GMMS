@@ -96,7 +96,7 @@ const ColorText = (value) => {
         return '#E33122'
 }
 
-export default ({ Topic_list, Op1, Op2, rows }) => {
+export default function MyApp({ Topic_list, Op1, Op2, rows }) {
 
     const [page, setPage] = useState(1);
     const router = useRouter();

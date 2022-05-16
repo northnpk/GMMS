@@ -90,7 +90,7 @@ const Control = ({ count, page, setPage, perPage = 5 }) => {
     )
 }
 
-export default ({ Topic_list, Op1, Op2 }) => {
+export default function MyApp({ Topic_list, Op1, Op2 }){
     const [page, setPage] = useState(1);
     const router = useRouter();
 
