@@ -106,7 +106,7 @@ export default () => {
 
     return (
         <>
-            <Header title="GMMS - Engineer" />
+            <Header title="GMMS - Admin" />
             <Loading open={open} />
             <MainManu />
             <Profile />
@@ -166,11 +166,23 @@ export default () => {
                             {log.Catagory} - LV {log.Problem_LV}
                         </Typography>
                         <Typography component="p" variant="body1" fontWeight={600} mb={2}>
-                            Detail
+                            Error detail
                         </Typography>
                         <Typography component="p" variant="body1" mb={2}>
-                            {log.ProblemDetail}
+                            {(log.ProblemDetail) && log.ProblemDetail.split('<br>')[0]}
                         </Typography>
+                        {
+                            (log.Status == '1') && (
+                                <>
+                                    <Typography component="p" variant="body1" fontWeight={600} mb={2}>
+                                        Repair detail
+                                    </Typography>
+                                    <Typography component="p" variant="body1" mb={2}>
+                                        {(log.ProblemDetail.split('<br>')[1] == '') ? log.ProblemDetail.split('<br>')[1] : '-'}
+                                    </Typography>
+                                </>
+                            )
+                        }
                         <Typography component="p" variant="body1" fontWeight={600} mb={2}>
                             Engineer
                         </Typography>

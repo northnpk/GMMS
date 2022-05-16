@@ -3,21 +3,19 @@ import con from "../../lib/connect";
 
 export default async function handler(req, res) {
 
-    const { user } = req.body;
-
     try {
-        con.query("SELECT `User_ID`,`Firstname`,`Lastname`,`Phonenumber`,`Role` FROM `User` WHERE Username=? AND Password=?", [user.username, user.password], (err, result) => {
+        con.query("SELECT l.Item_ID, i.Item_Name, SUM(l.Amount) AS Request_counting FROM `Request` r, `Request_List` l, `Item_Detail` i WHERE l.Request_ID = r.Request_ID AND i.Item_ID = l.Item_ID GROUP BY l.Item_ID ORDER BY Request_counting DESC;"
+        , (err, result) => {
 
-            if (err || result.length == 0) {
+            if (err) {
+                if (err.code == 'ECONNREFUSED') console.log(err.code);
                 res.status(400).json({ error: 'not found' });
                 return;
             }
-
             res.status(200).json(result);
         })
     } catch {
         console.log("Error")
         res.status(400).json({ error: 'not found' });
     }
-
 }

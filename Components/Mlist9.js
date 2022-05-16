@@ -108,7 +108,7 @@ export default ({ Topic_list, Op1, Op2 }) => {
 
         const fetchData = async () => {
 
-            const res = await fetch(`/api/getAllCart`)
+            const res = await fetch(`/api/rq/getAllRequest`)
             if (res.status != 200) return;
 
             const data = await res.json()
@@ -123,7 +123,7 @@ export default ({ Topic_list, Op1, Op2 }) => {
         setLoad(true)
         usesetDialog(false)
 
-        await fetch(`/api/setStatus?id=${id}&status=${status}`)
+        await fetch(`/api/rq/setStatus?id=${id}&status=${status}`)
 
         setLoad(false)
         setReload(!reload);
@@ -131,7 +131,7 @@ export default ({ Topic_list, Op1, Op2 }) => {
 
     const getDetail = async (_id) => {
 
-        const res = await fetch(`/api/getCartList?cartID=${_id}`)
+        const res = await fetch(`/api/rq/getRequestList?requestID=${_id}`)
         if (res.status != 200) return;
 
         const _data = await res.json()
@@ -155,13 +155,13 @@ export default ({ Topic_list, Op1, Op2 }) => {
                     {rows.slice((page - 1) * 5, page * 5).map((row, i) => (
                         <StyledTableRow key={i}>
                             <StyledTableCell component="th" scope="row" sx={{ color: '#242424' }}>
-                                รายการสินค้า {i + 1}<br />จำนวน {(row.count) ? row.count : '0'} รายการ
+                                รายการขอร้อง {i + 1}<br />จำนวน {(row.count) ? row.count : '0'} รายการ
                             </StyledTableCell>
                             <StyledTableCell align="center">{row.Date.split('T')[0]}</StyledTableCell>
                             <StyledTableCell align="center">{row.Description}</StyledTableCell>
                             <StyledTableCell align="center">
                                 <Grid>
-                                    <ColorButton variant="contained" onClick={() => { usesetDialog(true); setID(row.Cart_ID); setSelect(row); getDetail(row.Cart_ID) }} startIcon={<List />} sx={{ color: '#000000', width: 100, height: 40 }}>Check</ColorButton>
+                                    <ColorButton variant="contained" onClick={() => { usesetDialog(true); setID(row.Request_ID); setSelect(row); getDetail(row.Request_ID) }} startIcon={<List />} sx={{ color: '#000000', width: 100, height: 40 }}>Check</ColorButton>
                                 </Grid>
                             </StyledTableCell>
                         </StyledTableRow>
@@ -179,17 +179,17 @@ export default ({ Topic_list, Op1, Op2 }) => {
             <Dialog open={usedialog} fullWidth>
                 <DialogTitle p={1} bgcolor="success.light" mb={2}>
                     <Typography component="p" variant="h6" color="white" fontWeight={600} align='center'>
-                        Accept cart
+                        Accept request
                     </Typography>
                 </DialogTitle>
                 <DialogContent>
                     <Typography component="p" variant="h6" fontWeight={600} align='left' mb={2}>
                         Engineer
                     </Typography>
-                    <Typography component="p" variant="h6" align='left' mb={2}>
+                    <Typography component="p" variant="h6" align='left'mb={2}>
                         {select.Firstname} {select.Lastname}
                     </Typography>
-                    <Typography component="p" variant="h6" fontWeight={600} align='left' mb={2}>
+                    <Typography component="p" variant="h6" fontWeight={600} align='left'mb={2}>
                         List ( {(select.count) ? select.count : '0'} )
                     </Typography>
                     <Typography component="p" variant="h6" align='left' mb={2}>

@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 export default () => {
 
     const router = useRouter();
-    const [cookies,setCookie,removeCookie] = useCookies(['user']);
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [user, setUser] = useState({ Role: '-', Firstname: '-', Lastname: '-' })
@@ -77,16 +77,16 @@ export default () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={() => { removeCookie('user'); router.push('/') }}>
+                <MenuItem >
                     {user.Firstname} {user.Lastname}
                 </MenuItem>
-                <MenuItem onClick={() => { removeCookie('user'); router.push('/') }}>
+                <MenuItem onClick={() => router.push('/logout')}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout
                 </MenuItem>
             </Menu>
-        </Box>
+        </Box >
     )
 }

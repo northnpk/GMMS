@@ -3,7 +3,7 @@ import CircleBar from '../../Components/CircleBar';
 import ReportForm from '../../Components/ReportForm';
 import TableLog from '../../Components/TableLog';
 import MachineProfile from '../../Components/MachineProfile';
-import MainMenu from '../../Components/MainMenu';
+import MainMenu from '../../Components/MainMenuqc';
 import Profile from '../../Components/Profile'
 import Loading from '../../Components/Loading'
 

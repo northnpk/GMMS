@@ -1,5 +1,5 @@
 import Header from '../../Components/Header'
-import MainMenu from '../../Components/MainMenu';
+import MainMenu from '../../Components/MainMenuen';
 import Profile from '../../Components/Profile'
 
 import { Container, Grid, Paper } from '@mui/material';
@@ -13,6 +13,7 @@ export default () => {
 
     const [data, setData] = useState([]);
     const [cookies] = useCookies(['user']);
+    const [en, setEn] = useState(0);
 
     useEffect(() => {
         if (!cookies.user || !cookies.user.User_ID) return
@@ -24,7 +25,12 @@ export default () => {
 
             const _data = await res.json()
             setData(_data)
-            console.log(_data);
+
+            const res2 = await fetch(`/api/getEngineer`)
+            if (res.status != 200) return;
+
+            const _data2 = await res2.json()
+            setEn(_data2.length)
         }
         fetchData();
 
@@ -51,16 +57,16 @@ export default () => {
                     justifyContent="center"
                 >
                     <Grid item xs={12} md={4}>
-                        <PaperCount title="Engineer" count={4} />
+                        <PaperCount title="Engineer" count={en} />
                     </Grid>
 
 
                     <Grid item xs={12} md={4}>
-                        <PaperCount title="Machinery" count={4} />
+                        <PaperCount title="Machine" count={data.length} />
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <PaperCount title="Broken machine" count={3} error={true} />
+                        <PaperCount title="Broken machine" count={data.filter((value) => value.Status && !value.Status.includes('1')).length} error={true} />
                     </Grid>
 
                     <Grid item xs={12}>

@@ -1,16 +1,14 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import con from "../../lib/connect";
 
 export default async function handler(req, res) {
 
-    const { id, userID } = req.query;
-    const onlyEn = (userID) ? ' AND e.User_ID = ? ' : ''
-    console.log(userID, onlyEn)
-
     try {
-        con.query("SELECT e.*,p.`Description` as `Catagory`,u.`Firstname`,u.`Lastname` FROM `Error_Logging` e" +
-            " LEFT JOIN  `Problem_type` p ON e.Problem_Catagory = p.Problem_Catagory " +
-            " LEFT JOIN  `User` u ON u.User_ID = e.User_ID " +
-            " WHERE `Serial_number` = ? " + onlyEn, [id, userID], (err, result) => {
+        con.query("SELECT c.*, t.Description,sum(l.Amount) as `count`,u.Firstname,u.Lastname " +
+            " FROM `Cart`c LEFT JOIN Status_type t ON t.Status = c.Status " +
+            " LEFT JOIN Cart_List l ON l.Cart_ID = c.Cart_ID " +
+            " LEFT JOIN User u ON u.User_ID = c.User_ID " +
+            " WHERE c.Status != ? GROUP BY c.Cart_ID", [0], (err, result) => {
 
                 if (err) {
                     if (err.code == 'ECONNREFUSED') console.log(err.code);

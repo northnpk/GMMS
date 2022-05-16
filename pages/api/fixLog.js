@@ -3,16 +3,18 @@ import con from "../../lib/connect";
 
 export default async function handler(req, res) {
 
-    const { user } = req.body;
+    const { errorID, detail } = req.body;
+
+    console.log(errorID,detail)
 
     try {
-        con.query("SELECT `User_ID`,`Firstname`,`Lastname`,`Phonenumber`,`Role` FROM `User` WHERE Username=? AND Password=?", [user.username, user.password], (err, result) => {
+        con.query("UPDATE `error_logging` SET `ProblemDetail`=?,`Status`=? WHERE `ErrorLog_ID` = ?", [detail, 1, errorID], (err, result) => {
 
-            if (err || result.length == 0) {
+            if (err) {
+                console.log(err);
                 res.status(400).json({ error: 'not found' });
                 return;
             }
-
             res.status(200).json(result);
         })
     } catch {

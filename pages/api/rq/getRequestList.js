@@ -1,11 +1,11 @@
-import con from "../../lib/connect";
+import con from "../../../lib/connect";
 
 export default async function handler(req, res) {
 
-    const { cartID } = req.query;
+    const { requestID } = req.query;
 
     try {
-        con.query("Select * FROM `Cart_List` c LEFT JOIN `Item_Detail` i ON c.`Item_ID` = i.`Item_ID` WHERE c.`Cart_ID` = ?", [cartID], (err, result) => {
+        con.query("Select * FROM `Request_List` c LEFT JOIN `Item_Detail` i ON c.`Item_ID` = i.`Item_ID` WHERE c.`Request_ID` = ?", [requestID], (err, result) => {
 
             if (err) {
                 console.log(err);

@@ -2,7 +2,7 @@ import Header from '../../Components/Header'
 import { Container, Grid, Paper } from '@mui/material';
 import MachineTable from '../../Components/MachineTable';
 import PaperCount from '../../Components/PaperCount';
-import MainMenu from '../../Components/MainMenu';
+import MainMenu from '../../Components/MainMenuqc';
 import Profile from '../../Components/Profile'
 
 import { useCookies } from 'react-cookie';
@@ -12,6 +12,7 @@ export default () => {
 
     const [data, setData] = useState([]);
     const [cookies] = useCookies(['user'])
+    const [en, setEn] = useState(0);
 
     useEffect(() => {
 
@@ -24,7 +25,16 @@ export default () => {
             const data = await res.json()
             setData(data)
         }
+
+        const fetchData2 = async () => {
+            const res2 = await fetch(`/api/getEngineer`)
+            if (res2.status != 200) return;
+
+            const _data2 = await res2.json()
+            setEn(_data2.length)
+        }
         fetchData();
+        fetchData2();
 
     }, [cookies.user])
 
@@ -49,16 +59,16 @@ export default () => {
                     justifyContent="center"
                 >
                     <Grid item xs={12} md={4}>
-                        <PaperCount title="Engineer" count={4} />
+                        <PaperCount title="Engineer" count={en} />
                     </Grid>
 
 
                     <Grid item xs={12} md={4}>
-                        <PaperCount title="Machinery" count={4} />
+                        <PaperCount title="Machine" count={data.length} />
                     </Grid>
 
                     <Grid item xs={12} md={4}>
-                        <PaperCount title="Broken machine" count={3} error={true} />
+                        <PaperCount title="Broken machine" count={data.filter((value) => value.Status && !value.Status.includes('1')).length} error={true} />
                     </Grid>
 
                     <Grid item xs={12}>

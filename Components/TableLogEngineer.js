@@ -27,8 +27,8 @@ const Log = ({ data, i, selectData }) => {
                     Level : {data.Problem_LV}
                 </Typography>
                 <Box sx={{ width: '20%' }} display='flex' flexDirection='row' justifyContent='flex-end'>
-                    <Button variant='text' color={(data.Firstname) ? 'success' : 'error'} sx={{ height: '80%' }} onClick={() => selectData(data)}>
-                        {(data.Firstname) ? 'Checked' : 'Unchecked'}
+                    <Button variant='text' color={(data.Status == '1') ? 'success' : 'error'} sx={{ height: '80%' }} onClick={() => selectData(data)}>
+                        {(data.Status == '1') ? 'Fixed' : 'Fix'}
                     </Button>
                 </Box>
             </Stack>
@@ -46,7 +46,9 @@ export default ({ id, userID, reload, setCount, selectData }) => {
     const [cookies] = useCookies(['user']);
 
     const selectStatus = (value) => {
+
         setStatus(value);
+        if (data.length == 0) return;
         setRows(data.filter(v => v.Status == value))
     }
 

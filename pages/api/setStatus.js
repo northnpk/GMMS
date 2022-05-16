@@ -1,18 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import con from "../../lib/connect";
 
 export default async function handler(req, res) {
 
-    const { user } = req.body;
+    console.log(req.body)
+    const { id, status } = req.query;
 
     try {
-        con.query("SELECT `User_ID`,`Firstname`,`Lastname`,`Phonenumber`,`Role` FROM `User` WHERE Username=? AND Password=?", [user.username, user.password], (err, result) => {
-
-            if (err || result.length == 0) {
+        con.query("UPDATE `Cart` SET `Status`= ? WHERE Cart_ID = ?", [status, id], (err, result) => {
+            if (err) {
+                console.log(err);
                 res.status(400).json({ error: 'not found' });
                 return;
             }
-
             res.status(200).json(result);
         })
     } catch {

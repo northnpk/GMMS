@@ -2,7 +2,7 @@ import Header from '../../Components/Header'
 import CircleBar from '../../Components/CircleBar';
 import TableLog from '../../Components/TableLogEngineer';
 import MachineProfile from '../../Components/MachineProfile';
-import MainManu from '../../Components/MainMenu'
+import MainManu from '../../Components/MainMenuen'
 import Profile from '../../Components/Profile'
 import Loading from '../../Components/Loading'
 
@@ -67,12 +67,30 @@ export default () => {
     const router = useRouter()
     const data = router.query;
 
+    const [detail, setDetail] = useState('')
     const [count, setCount] = useState(0)
     const [log, setLog] = useState({})
 
-    const [dialog, setDialog] = useState(false);
     const [open, setOpen] = useState(false)
     const [reload, setReload] = useState(true)
+
+    const Fix = async (errorID, errorDetail) => {
+        setOpen(true);
+        const newDetail = errorDetail + '<br>' + detail;
+        const body = { detail: newDetail, errorID: errorID }
+
+        await fetch('/api/fixLog', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        setReload(!reload)
+        setOpen(false);
+        setDetail('')
+    }
 
     return (
         <>
@@ -122,7 +140,7 @@ export default () => {
                         </Stack>
                     </Grid>
                 </Grid>
-                <Dialog open={dialog} fullWidth >
+                <Dialog open={Object.keys(log).length > 0} fullWidth >
                     <DialogTitle p={1} bgcolor="success.light" mb={2}>
                         <Typography component="p" variant="h6" color="white" fontWeight={600}>
                             Error detail
@@ -133,36 +151,43 @@ export default () => {
                             Problem type
                         </Typography>
                         <Typography component="p" variant="body1" mb={2}>
-                            asdasdasdasdasdasdasdadadadada
+                            {log.Catagory} - LV {log.Problem_LV}
                         </Typography>
                         <Typography component="p" variant="body1" fontWeight={600} mb={2}>
-                            Detaile
+                            Error detail
                         </Typography>
                         <Typography component="p" variant="body1" mb={2}>
-                            asdasdasdasdasdasdasdadadadada
+                            {(log.ProblemDetail) && log.ProblemDetail.split('<br>')[0]}
                         </Typography>
                         <Typography component="p" variant="body1" fontWeight={600} mb={2}>
-                            Detail
+                            Repair detail
                         </Typography>
-                        <TextField
-                            id="outlined-multiline-static"
-                            multiline
-                            rows={5}
-                            fullWidth
-                        />
+                        {
+                            (log.Status == '0') ? <TextField
+                                id="outlined-multiline-static"
+                                multiline
+                                rows={5}
+                                fullWidth
+                                value={detail}
+                                onChange={e => setDetail(e.target.value)}
+                            /> : (log.ProblemDetail) && log.ProblemDetail.split('<br>')[1]
+                        }
                     </DialogContent>
                     <DialogActions >
-                        <Button onClick={() => setDialog(false)} variant="outline">Cancel</Button>
-                        <Button
-                            variant="contained"
-                            color='success'
-                            sx={{ backgroundColor: 'success.light', ":hover": { backgroundColor: 'success' } }}
-                            onClick={() => {
-                                setDialog(false)
-                            }}
-                        >
-                            Fixed
-                        </Button>
+                        <Button onClick={() => setLog({})} variant="outline">Cancel</Button>
+                        {
+                            (log.Status == '0') && <Button
+                                variant="contained"
+                                color='success'
+                                sx={{ backgroundColor: 'success.light', ":hover": { backgroundColor: 'success' } }}
+                                onClick={() => {
+                                    Fix(log.ErrorLog_ID, log.ProblemDetail);
+                                    setLog({})
+                                }}
+                            >
+                                Fixed
+                            </Button>
+                        }
                     </DialogActions>
                 </Dialog>
             </Container>

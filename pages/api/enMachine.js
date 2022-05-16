@@ -18,7 +18,7 @@ export default async function handler(req, res) {
                 }
                 const serial = result.map((v) => v.Serial_number)
 
-                con.query("SELECT d.`Efficiency`,d.`Data_ID`,d.`Serial_number` FROM Data d WHERE d.`Serial_number` in (?) ORDER BY d.`Data_ID` DESC LIMIT 2", [serial], (err2, result2) => {
+                con.query("SELECT d.`Efficiency`,d.`Data_ID`,d.`Serial_number` FROM Data d WHERE d.`Serial_number` in (?) ORDER BY d.`Data_ID` DESC LIMIT ?", [serial,serial.length], (err2, result2) => {
                     if (err2) {
                         console.log(err2);
                         res.status(400).json({ error: 'not found' });
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
                     result2.forEach((v, i) => {
                         const data = result.find((v2) => v.Serial_number == v2.Serial_number)
                         data.Efficiency = v.Efficiency;
-                        data.id = v.Serial_number;
+                        data.id = v.Data_ID;
                     })
                     res.status(200).json(result);
                 });

@@ -88,7 +88,7 @@ const Row = ({ value, path }) => {
             <TableCell sx={{ borderBottom: "none", py: 1, px: 0 }}>
                 <Data left >
                     <Typography component="p" variant="body1" sx={{ p: 1, display: 'inline-flex' }}>
-                        {<ErrorIcon sx={{ mr: 1, color: 'error.light', opacity: (value.Status) ? 1 : 0 }} />}
+                        {<ErrorIcon sx={{ mr: 1, color: 'error.light', opacity: (!value.Status || (path == 'en' && !value.Status.includes('0'))) ? 0 : 1 }} />}
                         {value.Machine_Name}
                     </Typography>
                 </Data>
